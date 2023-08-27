@@ -109,6 +109,7 @@ table 50001 "Customer Order Line"
         {
             Caption = 'Line Amount';
             Editable = false;
+            DecimalPlaces = 0 : 5;
         }
     }
     keys

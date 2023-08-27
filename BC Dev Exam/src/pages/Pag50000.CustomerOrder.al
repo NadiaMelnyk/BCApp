@@ -157,6 +157,21 @@ page 50000 "Customer Order"
                     Rec.PostOrder();
                 end;
             }
+            action(SetPayment)
+            {
+                Caption = 'Set payment';
+                ApplicationArea = All;
+                ToolTip = 'Executes the Set payment action.';
+                Image = Payment;
+
+                trigger OnAction()
+                var
+                    CustomerOrderPayments: Page "Customer Order Payments";
+                begin
+                    CustomerOrderPayments.SetCurrentOrderNo(Rec."No.");
+                    CustomerOrderPayments.RunModal()
+                end;
+            }
         }
         area(Promoted)
         {
@@ -172,6 +187,9 @@ page 50000 "Customer Order"
                 }
             }
             actionref(Post_promoted; Post)
+            {
+            }
+            actionref(SetPayment_promoted; SetPayment)
             {
             }
         }
