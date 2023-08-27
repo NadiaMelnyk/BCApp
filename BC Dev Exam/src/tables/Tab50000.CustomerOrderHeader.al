@@ -127,7 +127,7 @@ table 50000 "Customer Order Header"
         }
         field(61; "Posting No. Series"; Code[20])
         {
-            Caption = 'No. Series';
+            Caption = 'Posting No. Series';
             Editable = false;
         }
         field(70; Status; Enum "Customer Order Status")
