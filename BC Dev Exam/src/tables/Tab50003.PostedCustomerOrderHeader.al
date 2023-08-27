@@ -37,6 +37,11 @@ table 50003 "Posted Customer Order Header"
             Caption = 'Created By';
             Editable = false;
         }
+        field(31; "Posted By"; Text[50])
+        {
+            Caption = 'Posted By';
+            Editable = false;
+        }
         field(40; "Order Amount"; Decimal)
         {
             Caption = 'Order Amount';
