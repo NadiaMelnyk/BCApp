@@ -6,7 +6,7 @@ tableextension 50001 Customer extends Customer //18
         {
             Caption = 'Total Customer Order Amount';
             FieldClass = FlowField;
-            CalcFormula = sum("Posted Customer Order Header"."Order Amount" where("Customer No." = field("No.")));
+            CalcFormula = sum("Posted Customer Order Line"."Line Amount" where("Customer No." = field("No.")));
         }
         field(50001; "Total Paid Cust Order Amount"; Decimal)
         {
