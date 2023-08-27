@@ -36,6 +36,11 @@ table 50005 "Posted Customer Order Payment"
             Caption = 'G/L Account No.';
             TableRelation = "G/L Account"."No.";
         }
+        field(60; "Customer No."; Code[20])
+        {
+            Caption = 'Customer No.';
+            TableRelation = Customer;
+        }
     }
     keys
     {

@@ -64,6 +64,11 @@ table 50004 "Posted Customer Order Line"
             Editable = false;
             DecimalPlaces = 0 : 5;
         }
+        field(50; "Customer No."; Code[20])
+        {
+            Caption = 'Customer No.';
+            TableRelation = Customer;
+        }
     }
     keys
     {
