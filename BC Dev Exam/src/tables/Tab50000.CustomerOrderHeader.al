@@ -290,4 +290,15 @@ table 50000 "Customer Order Header"
 
         //TODO: Add code to execute the action.
     end;
+
+    procedure CalculatePaidAmount(): Decimal
+    var
+        CustomerOrderPayment: Record "Customer Order Payment";
+    begin
+        CustomerOrderPayment.Reset();
+        CustomerOrderPayment.SetRange("Document No.", "No.");
+        CustomerOrderPayment.CalcSums("Paid Amount");
+        exit(CustomerOrderPayment."Paid Amount");
+    end;
 }
+

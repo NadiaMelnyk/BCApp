@@ -163,13 +163,16 @@ page 50000 "Customer Order"
                 ApplicationArea = All;
                 ToolTip = 'Executes the Set payment action.';
                 Image = Payment;
+                Enabled = DynamicEnabled;
 
                 trigger OnAction()
                 var
                     CustomerOrderPayments: Page "Customer Order Payments";
                 begin
                     CustomerOrderPayments.SetCurrentOrderNo(Rec."No.");
-                    CustomerOrderPayments.RunModal()
+                    CustomerOrderPayments.RunModal();
+                    SetPaymentEnabled();
+                    CurrPage.Update();
                 end;
             }
         }
@@ -195,9 +198,30 @@ page 50000 "Customer Order"
         }
     }
 
+    var
+        DynamicEnabled: Boolean;
+
+
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
     begin
         if (Rec."Customer No." = '') and (Rec.GetFilter("Customer No.") <> '') then
             CurrPage.Update(false);
+    end;
+
+    trigger OnAfterGetRecord()
+    begin
+        SetPaymentEnabled();
+    end;
+
+    trigger OnOpenPage()
+    begin
+        SetPaymentEnabled();
+    end;
+
+    local procedure SetPaymentEnabled()
+    begin
+        DynamicEnabled := false;
+        if Rec.CalculatePaidAmount() <> Rec."Order Amount" then
+            DynamicEnabled := true;
     end;
 }
