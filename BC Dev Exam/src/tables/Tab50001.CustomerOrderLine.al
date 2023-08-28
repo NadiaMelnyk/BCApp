@@ -110,6 +110,23 @@ table 50001 "Customer Order Line"
             Caption = 'Line Amount';
             Editable = false;
             DecimalPlaces = 0 : 5;
+
+            trigger OnValidate()
+            var
+                CustomerOrderLine: Record "Customer Order Line";
+                CustomerOrderHeader: Record "Customer Order Header";
+            begin
+                CustomerOrderLine.Reset();
+                CustomerOrderLine.SetRange("Document No.", Rec."Document No.");
+                CustomerOrderLine.SetFilter("Line No.", '<>%1', Rec."Line No.");
+                CustomerOrderLine.CalcSums("Line Amount");
+
+                if not CustomerOrderHeader.Get("Document No.") then
+                    exit;
+
+                if CustomerOrderLine."Line Amount" + Rec."Line Amount" < CustomerOrderHeader.CalculatePaidAmount() then
+                    Error('You cannot change line because new order amount (%1) is less than paid amount (%2)', CustomerOrderLine."Line Amount" + Rec."Line Amount", CustomerOrderHeader.CalculatePaidAmount());
+            end;
         }
     }
     keys
@@ -146,6 +163,6 @@ table 50001 "Customer Order Line"
 
     local procedure CalculateLineAmount()
     begin
-        Rec."Line Amount" := Rec.Quantity * Rec."Unit Price" * (1 - Rec."Line Discount %" / 100);
+        Rec.Validate("Line Amount", Rec.Quantity * Rec."Unit Price" * (1 - Rec."Line Discount %" / 100));
     end;
 }
