@@ -142,6 +142,16 @@ table 50001 "Customer Order Line"
         TestStatusOpen();
     end;
 
+    trigger OnModify()
+    begin
+        TestStatusOpen();
+    end;
+
+    trigger OnDelete()
+    begin
+        TestStatusOpen();
+    end;
+
     var
         CustomerOrderHeader: Record "Customer Order Header";
         Currency: Record Currency;

@@ -12,6 +12,11 @@ page 50003 "Customer Order Lines"
         {
             repeater(Control1)
             {
+                field("Document No."; Rec."Document No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Document No. field.';
+                }
                 field("Type"; Rec."Type")
                 {
                     ApplicationArea = All;
