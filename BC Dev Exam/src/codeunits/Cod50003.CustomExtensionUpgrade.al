@@ -69,6 +69,7 @@ codeunit 50003 "Custom Extension Upgrade"
         Customer: Record Customer;
         EmptyLbl: Label '';
     begin
+        //Set default location for non-posted Customer Order Line from Customer if Location Code on the line is empty
         CustomerOrderLine.Reset();
         CustomerOrderLine.SetRange("Location Code", '=%1', EmptyLbl);
         if CustomerOrderLine.FindSet(true) then begin
@@ -88,6 +89,7 @@ codeunit 50003 "Custom Extension Upgrade"
         myAppInfo: ModuleInfo;
         ReportNameLbl: Label './SalesReceivables/CustomerTop10List.rdlc';
     begin
+        //Set standard layout as default in report layout selection for customized reports in the new version of the Custom Extension
         NavApp.GetCurrentModuleInfo(myAppInfo);
         if myAppInfo.AppVersion.Major = 2 then
             ReportLayoutSelectionMgmt.SetDefaultReportLayoutSelectionForCustomizedReports(ReportNameLbl);
