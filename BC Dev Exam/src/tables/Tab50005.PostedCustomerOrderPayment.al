@@ -2,9 +2,8 @@ table 50005 "Posted Customer Order Payment"
 {
     Caption = 'Posted Customer Order Payments';
     DataClassification = CustomerContent;
-    //TODO
-    // LookupPageId = "Posted Customer Order Payment List";
-    // DrillDownPageId = "Posted Customer Order Payment List";
+    LookupPageId = "Posted Cust Order Payment List";
+    DrillDownPageId = "Posted Cust Order Payment List";
 
     fields
     {

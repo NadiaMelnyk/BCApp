@@ -2,9 +2,8 @@ table 50004 "Posted Customer Order Line"
 {
     Caption = 'Posted Customer Order Line';
     DataClassification = CustomerContent;
-    //TODO
-    // DrillDownPageID = "Posted Customer Order Lines";
-    // LookupPageID = "Posted Customer Order Lines";
+    DrillDownPageID = "Posted Customer Order Lines";
+    LookupPageID = "Posted Customer Order Lines";
 
     fields
     {

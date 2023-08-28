@@ -3,10 +3,8 @@ table 50003 "Posted Customer Order Header"
     Caption = 'Posted Customer Order Header';
     DataCaptionFields = "No.", "Customer Name";
     DataClassification = CustomerContent;
-
-    //TODO
-    // DrillDownPageId = "Posted Customer Orders"; 
-    // LookupPageID = "Posted Customer Orders";
+    DrillDownPageId = "Posted Customer Orders";
+    LookupPageID = "Posted Customer Orders";
 
     fields
     {
@@ -78,4 +76,15 @@ table 50003 "Posted Customer Order Header"
             Clustered = true;
         }
     }
+
+
+    procedure CalculatePaidAmount(): Decimal
+    var
+        PostedCustomerOrderPayment: Record "Posted Customer Order Payment";
+    begin
+        PostedCustomerOrderPayment.Reset();
+        PostedCustomerOrderPayment.SetRange("Document No.", "No.");
+        PostedCustomerOrderPayment.CalcSums("Paid Amount");
+        exit(PostedCustomerOrderPayment."Paid Amount");
+    end;
 }

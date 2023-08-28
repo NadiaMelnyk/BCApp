@@ -174,9 +174,17 @@ table 50000 "Customer Order Header"
     end;
 
     trigger OnDelete()
+    var
+        CustomerOrderPayment: Record "Customer Order Payment";
     begin
-        DeleteLines();
+        CustomerOrderPayment.Reset();
+        CustomerOrderPayment.SetRange("Document No.", "No.");
+        if not CustomerOrderPayment.IsEmpty() then
+            if not Confirm('The document has %1 related payment(s). Do you want to delete the order?', false, CustomerOrderPayment.Count) then
+                Error(''); // Cancel the delete operation
+
         DeletePayments();
+        DeleteLines();
     end;
 
     trigger OnRename()
@@ -228,18 +236,22 @@ table 50000 "Customer Order Header"
         TestField(Status, Status::Open);
     end;
 
-    local procedure DeleteLines()
+    procedure DeleteLines()
     var
         CustomerOrderLine: Record "Customer Order Line";
     begin
+        CustomerOrderLine.Reset();
         CustomerOrderLine.SetRange("Document No.", "No.");
         CustomerOrderLine.DeleteAll();
     end;
 
-    local procedure DeletePayments()
+    procedure DeletePayments()
+    var
+        CustomerOrderPayment: Record "Customer Order Payment";
     begin
-        Error('DeletePayments is not defined'); //TODO
-        //You can't delete Order if there are some payments;
+        CustomerOrderPayment.Reset();
+        CustomerOrderPayment.SetRange("Document No.", "No.");
+        CustomerOrderPayment.DeleteAll();
     end;
 
     local procedure ChangeCustomOrderNo()
@@ -284,11 +296,15 @@ table 50000 "Customer Order Header"
     procedure PostOrder()
     var
         ZeroAmountErr: Label 'You cannot post a document with zero amount.';
+        CustomerOrderPost: Codeunit "Customer Order Post";
     begin
         if Rec."Order Amount" = 0 then
             Error(ZeroAmountErr);
 
-        //TODO: Add code to execute the action.
+        Commit();
+        if not Codeunit.Run(Codeunit::"Customer Order Post", Rec) then
+            Message('Document was not posted: %1', GetLastErrorText());
+
     end;
 
     procedure CalculatePaidAmount(): Decimal
