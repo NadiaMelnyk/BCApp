@@ -4,6 +4,7 @@ page 50010 "Posted Cust Order Payment List"
     Caption = 'Posted Customer Order Payments';
     PageType = List;
     SourceTable = "Posted Customer Order Payment";
+    Editable = false;
 
     layout
     {

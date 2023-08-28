@@ -20,10 +20,17 @@ page 50005 "Customer Order Payments"
                     trigger OnDrillDown()
                     var
                         CustomOrderLine: Record "Customer Order Line";
+                        PostedCustomOrderLine: Record "Posted Customer Order Line";
                     begin
-                        CustomOrderLine.Reset();
-                        CustomOrderLine.SetRange("Document No.", CurrentDocumentNo);
-                        Page.RunModal(0, CustomOrderLine);
+                        if IsRunFromPostedOrder then begin
+                            PostedCustomOrderLine.Reset();
+                            PostedCustomOrderLine.SetRange("Document No.", CurrentDocumentNo);
+                            Page.RunModal(0, PostedCustomOrderLine);
+                        end else begin
+                            CustomOrderLine.Reset();
+                            CustomOrderLine.SetRange("Document No.", CurrentDocumentNo);
+                            Page.RunModal(0, CustomOrderLine);
+                        end;
                     end;
                 }
                 field(PaidAmount; PaidAmount)
@@ -36,10 +43,17 @@ page 50005 "Customer Order Payments"
                     trigger OnDrillDown()
                     var
                         CustomOrderPayment: Record "Customer Order Payment";
+                        PostedCustomOrderPayment: Record "Posted Customer Order Payment";
                     begin
-                        CustomOrderPayment.Reset();
-                        CustomOrderPayment.SetRange("Document No.", CurrentDocumentNo);
-                        Page.RunModal(0, CustomOrderPayment);
+                        if IsRunFromPostedOrder then begin
+                            PostedCustomOrderPayment.Reset();
+                            PostedCustomOrderPayment.SetRange("Document No.", CurrentDocumentNo);
+                            Page.RunModal(0, PostedCustomOrderPayment);
+                        end else begin
+                            CustomOrderPayment.Reset();
+                            CustomOrderPayment.SetRange("Document No.", CurrentDocumentNo);
+                            Page.RunModal(0, CustomOrderPayment);
+                        end;
                     end;
                 }
                 field(RemainingAmount; RemainingAmount)
@@ -83,14 +97,25 @@ page 50005 "Customer Order Payments"
         RemainingAmount := 0;
         TotalInTransaction := 0;
 
-        if CustomerOrderHeader.Get(CurrentDocumentNo) then
-            CustomerOrderHeader.CalcFields("Order Amount");
-        OrderAmount := CustomerOrderHeader."Order Amount";
+        if IsRunFromPostedOrder then begin
+            if PostedCustomerOrderHeader.Get(CurrentDocumentNo) then
+                PostedCustomerOrderHeader.CalcFields("Order Amount");
+            OrderAmount := PostedCustomerOrderHeader."Order Amount";
 
-        CustomerOrderPayment.Reset();
-        CustomerOrderPayment.SetRange("Document No.", CurrentDocumentNo);
-        CustomerOrderPayment.CalcSums("Paid Amount");
-        PaidAmount := CustomerOrderPayment."Paid Amount";
+            PostedCustomerOrderPayment.Reset();
+            PostedCustomerOrderPayment.SetRange("Document No.", CurrentDocumentNo);
+            PostedCustomerOrderPayment.CalcSums("Paid Amount");
+            PaidAmount := PostedCustomerOrderPayment."Paid Amount";
+        end else begin
+            if CustomerOrderHeader.Get(CurrentDocumentNo) then
+                CustomerOrderHeader.CalcFields("Order Amount");
+            OrderAmount := CustomerOrderHeader."Order Amount";
+
+            CustomerOrderPayment.Reset();
+            CustomerOrderPayment.SetRange("Document No.", CurrentDocumentNo);
+            CustomerOrderPayment.CalcSums("Paid Amount");
+            PaidAmount := CustomerOrderPayment."Paid Amount";
+        end;
 
         RemainingAmount := OrderAmount - PaidAmount;
 
@@ -121,6 +146,9 @@ page 50005 "Customer Order Payments"
     var
         CustomerOrderPayment: Record "Customer Order Payment";
         CustomerOrderHeader: Record "Customer Order Header";
+        PostedCustomerOrderPayment: Record "Posted Customer Order Payment";
+        PostedCustomerOrderHeader: Record "Posted Customer Order Header";
+        IsRunFromPostedOrder: Boolean;
         PaymentDate: Date;
         CurrentDocumentNo: Code[20];
         GLAccountNo: Code[20];
@@ -133,5 +161,10 @@ page 50005 "Customer Order Payments"
     procedure SetCurrentOrderNo(DocumentNo: Code[20])
     begin
         CurrentDocumentNo := DocumentNo;
+    end;
+
+    procedure SetIsRunFromPostedOrder(_IsRunFromPostedOrder: Boolean)
+    begin
+        IsRunFromPostedOrder := _IsRunFromPostedOrder;
     end;
 }

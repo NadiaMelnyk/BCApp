@@ -121,6 +121,7 @@ page 50006 "Posted Customer Order"
                     CustomerOrderPayments: Page "Customer Order Payments";
                     CustomerOrderPost: Codeunit "Customer Order Post";
                 begin
+                    CustomerOrderPayments.SetIsRunFromPostedOrder(true);
                     CustomerOrderPayments.SetCurrentOrderNo(Rec."No.");
                     CustomerOrderPayments.RunModal();
                     CustomerOrderPost.SetAndPostPaymentAfterPosting(Rec);

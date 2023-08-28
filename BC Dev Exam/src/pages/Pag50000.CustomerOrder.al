@@ -169,6 +169,7 @@ page 50000 "Customer Order"
                 var
                     CustomerOrderPayments: Page "Customer Order Payments";
                 begin
+                    CustomerOrderPayments.SetIsRunFromPostedOrder(false);
                     CustomerOrderPayments.SetCurrentOrderNo(Rec."No.");
                     CustomerOrderPayments.RunModal();
                     SetPaymentEnabled();
