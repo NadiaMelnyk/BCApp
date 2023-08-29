@@ -10,7 +10,7 @@ codeunit 50001 "Custom Extension Install"
     trigger OnInstallAppPerDatabase()
     var
         myAppInfo: ModuleInfo;
-        ReportName: Label './src/reportextensions/layouts/CustomerTop10ListModified.rdl';
+        ReportName: Label './src/reportextensions/layouts/CustomerTop10ListModified.rdlc';
     begin
         NavApp.GetCurrentModuleInfo(myAppInfo);
         if myAppInfo.DataVersion = Version.Create(0, 0, 0, 0) then

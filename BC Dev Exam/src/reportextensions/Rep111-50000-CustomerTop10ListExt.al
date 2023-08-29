@@ -1,6 +1,6 @@
 reportextension 50000 "Customer - Top 10 List" extends "Customer - Top 10 List" //111
 {
-    RDLCLayout = './src/reportextensions/layouts/CustomerTop10ListModified.rdl';
+    RDLCLayout = './src/reportextensions/layouts/CustomerTop10ListModified.rdlc';
 
     dataset
     {

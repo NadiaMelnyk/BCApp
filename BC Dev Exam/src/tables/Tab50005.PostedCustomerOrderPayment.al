@@ -47,5 +47,8 @@ table 50005 "Posted Customer Order Payment"
         {
             Clustered = true;
         }
+        key(Key2; "Document No.", "Payment Date", "Entry No.")
+        {
+        }
     }
 }
