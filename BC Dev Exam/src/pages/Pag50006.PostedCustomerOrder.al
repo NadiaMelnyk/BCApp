@@ -118,8 +118,8 @@ page 50006 "Posted Customer Order"
 
                 trigger OnAction()
                 var
-                    CustomerOrderPayments: Page "Customer Order Payments";
                     CustomerOrderPost: Codeunit "Customer Order Post";
+                    CustomerOrderPayments: Page "Customer Order Payments";
                 begin
                     CustomerOrderPayments.SetIsRunFromPostedOrder(true);
                     CustomerOrderPayments.SetCurrentOrderNo(Rec."No.");
@@ -137,6 +137,7 @@ page 50006 "Posted Customer Order"
                 Caption = 'Print Customer Order';
                 ApplicationArea = All;
                 Image = Print;
+                ToolTip = 'Executes the Print Customer Order action.';
 
                 trigger OnAction()
                 var

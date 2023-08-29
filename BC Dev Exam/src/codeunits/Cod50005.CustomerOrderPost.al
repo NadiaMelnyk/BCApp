@@ -12,12 +12,6 @@ codeunit 50005 "Customer Order Post"
     end;
 
     local procedure "Code"(var CustomerOrderHeader: Record "Customer Order Header")
-    var
-        SalesSetup: Record "Sales & Receivables Setup";
-        SalesPostViaJobQueue: Codeunit "Sales Post via Job Queue";
-        HideDialog: Boolean;
-        IsHandled: Boolean;
-        DefaultOption: Integer;
     begin
         ConfirmPost(CustomerOrderHeader);
         if CustomerOrderHeader.FindSet() then
@@ -31,12 +25,12 @@ codeunit 50005 "Customer Order Post"
     var
         CustomerOrderPayment: Record "Customer Order Payment";
         ConfirmQuestion: Text;
-        ConfirmQuestionFullyPaid: Label 'Do you want to post %1 order?';
-        ConfirmQuestionNotFullyPaid: Label 'Order is not paid fully. Are you sure you want to post %1 order?';
-        ConfirmQuestionSeveralDOcuments: Label 'The number of orders that will be posted is %1. Do you want to continue?';
+        ConfirmQuestionFullyPaidLbl: Label 'Do you want to post %1 order?', Comment = '%1 = Order No.';
+        ConfirmQuestionNotFullyPaidLbl: Label 'Order is not paid fully. Are you sure you want to post %1 order?', Comment = '%1 = Order No.';
+        ConfirmQuestionSeveralDocumentsLbl: Label 'The number of orders that will be posted is %1. Do you want to continue?', Comment = '%1 = Order No.';
     begin
         if CustomerOrderHeader.Count > 1 then begin
-            if not Confirm(ConfirmQuestionSeveralDOcuments, true, CustomerOrderHeader.Count) then
+            if not Confirm(ConfirmQuestionSeveralDocumentsLbl, true, CustomerOrderHeader.Count) then
                 exit;
         end else begin
             CustomerOrderPayment.Reset();
@@ -46,9 +40,9 @@ codeunit 50005 "Customer Order Post"
             CustomerOrderHeader.CalcFields("Order Amount");
 
             if CustomerOrderPayment."Paid Amount" = CustomerOrderHeader."Order Amount" then
-                ConfirmQuestion := ConfirmQuestionFullyPaid
+                ConfirmQuestion := ConfirmQuestionFullyPaidLbl
             else
-                ConfirmQuestion := ConfirmQuestionNotFullyPaid;
+                ConfirmQuestion := ConfirmQuestionNotFullyPaidLbl;
 
             if not Confirm(ConfirmQuestion, true, CustomerOrderHeader."No.") then
                 exit;
@@ -98,7 +92,7 @@ codeunit 50005 "Customer Order Post"
         PostedCustomerOrderHeader.Insert();
 
         PostedCustomerOrderHeader.TransferFields(CustomerOrderHeader, false);
-        PostedCustomerOrderHeader."Posted By" := UserId();
+        PostedCustomerOrderHeader."Posted By" := CopyStr(UserId(), 1, MaxStrLen(PostedCustomerOrderHeader."Posted By"));
         PostedCustomerOrderHeader."Order No." := CustomerOrderHeader."No.";
         PostedCustomerOrderHeader.Modify();
     end;

@@ -4,8 +4,8 @@ codeunit 50003 "Custom Extension Upgrade"
 
     trigger OnCheckPreconditionsPerDatabase()
     var
-        Info: ModuleInfo;
         BaseAppId: Codeunit "BaseApp ID";
+        Info: ModuleInfo;
     begin
         //The Custom Extension requires the Base Application version 20 or higher
         NavApp.GetModuleInfo(BaseAppId.Get(), Info);
@@ -72,7 +72,7 @@ codeunit 50003 "Custom Extension Upgrade"
         //Set default location for non-posted Customer Order Line from Customer if Location Code on the line is empty
         CustomerOrderLine.Reset();
         CustomerOrderLine.SetRange("Location Code", '=%1', EmptyLbl);
-        if CustomerOrderLine.FindSet(true) then begin
+        if CustomerOrderLine.FindSet(true) then
             repeat
                 if CustomerOrderHeader.Get(CustomerOrderLine."Document No.") then
                     if Customer.Get(CustomerOrderHeader."Customer No.") then begin
@@ -80,7 +80,6 @@ codeunit 50003 "Custom Extension Upgrade"
                         CustomerOrderLine.Modify();
                     end;
             until CustomerOrderLine.Next() = 0;
-        end;
     end;
 
     local procedure UpgradeCustomExtensionReportLayoutSelection()
@@ -97,7 +96,7 @@ codeunit 50003 "Custom Extension Upgrade"
 
 
     var
+        ReportLayoutSelectionMgmt: Codeunit "Report Layout Selection Mgmt.";
         OnUpgradePerCompanyTagLbl: Label 'CustomeExtension-UpgradeToTheLowerVersionOfCustomExtension-OnUpgradePerCompany', Locked = true;
         OnUpgradePerDatabaseTagLbl: Label 'CustomeExtension-UpgradeToTheLowerVersionOfCustomExtension-OnUpgradePerDatabase', Locked = true;
-        ReportLayoutSelectionMgmt: Codeunit "Report Layout Selection Mgmt.";
 }

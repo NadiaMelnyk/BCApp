@@ -10,37 +10,35 @@ codeunit 50001 "Custom Extension Install"
     trigger OnInstallAppPerDatabase()
     var
         myAppInfo: ModuleInfo;
-        ReportName: Label './src/reportextensions/layouts/CustomerTop10ListModified.rdlc';
+        ReportNameLbl: Label './src/reportextensions/layouts/CustomerTop10ListModified.rdlc';
     begin
         NavApp.GetCurrentModuleInfo(myAppInfo);
         if myAppInfo.DataVersion = Version.Create(0, 0, 0, 0) then
-            ReportLayoutSelectionMgmt.SetDefaultReportLayoutSelectionForCustomizedReports(ReportName);
+            ReportLayoutSelectionMgmt.SetDefaultReportLayoutSelectionForCustomizedReports(ReportNameLbl);
     end;
 
     local procedure CreateNewSeriesForCustomerOrder()
     var
         SalesReceivableSetup: Record "Sales & Receivables Setup";
-        NoSeries: Record "No. Series";
-        NoSeriesLine: Record "No. Series Line";
-        CustomerOrderNoSeriesCode: Label 'CUST-ORD';
-        CustomerOrderNoSeriesDescription: Label 'Customer Orders';
-        CustomerOrderNoSeriesStartingNo: Label 'CO00001';
-        CustomerOrderNoSeriesEndingNo: Label 'CO99999';
-        PostedCustomerOrderNoSeriesCode: Label 'P-CUST-ORD';
-        PostedCustomerOrderNoSeriesDescription: Label 'Posted Customer Orders';
-        PostedCustomerOrderNoSeriesStartingNo: Label 'PCO00001';
-        PostedCustomerOrderNoSeriesEndingNo: Label 'PCO99999';
+        CustomerOrderNoSeriesCodeLbl: Label 'CUST-ORD';
+        CustomerOrderNoSeriesDescriptionLbl: Label 'Customer Orders';
+        CustomerOrderNoSeriesStartingNoLbl: Label 'CO00001';
+        CustomerOrderNoSeriesEndingNoLbl: Label 'CO99999';
+        PostedCustomerOrderNoSeriesCodeLbl: Label 'P-CUST-ORD';
+        PostedCustomerOrderNoSeriesDescriptionLbl: Label 'Posted Customer Orders';
+        PostedCustomerOrderNoSeriesStartingNoLbl: Label 'PCO00001';
+        PostedCustomerOrderNoSeriesEndingNoLbl: Label 'PCO99999';
     begin
         if not SalesReceivableSetup.Get() then
             SalesReceivableSetup.Insert();
 
         if SalesReceivableSetup."Custom Order No. Series" = '' then begin
-            SalesReceivableSetup."Custom Order No. Series" := GetNoSeries(CustomerOrderNoSeriesCode, CustomerOrderNoSeriesDescription, CustomerOrderNoSeriesStartingNo, CustomerOrderNoSeriesEndingNo);
+            SalesReceivableSetup."Custom Order No. Series" := GetNoSeries(CustomerOrderNoSeriesCodeLbl, CustomerOrderNoSeriesDescriptionLbl, CustomerOrderNoSeriesStartingNoLbl, CustomerOrderNoSeriesEndingNoLbl);
             SalesReceivableSetup.Modify();
         end;
 
         if SalesReceivableSetup."Posted Cust Order No. Series" = '' then begin
-            SalesReceivableSetup."Posted Cust Order No. Series" := GetNoSeries(PostedCustomerOrderNoSeriesCode, PostedCustomerOrderNoSeriesDescription, PostedCustomerOrderNoSeriesStartingNo, PostedCustomerOrderNoSeriesEndingNo);
+            SalesReceivableSetup."Posted Cust Order No. Series" := GetNoSeries(PostedCustomerOrderNoSeriesCodeLbl, PostedCustomerOrderNoSeriesDescriptionLbl, PostedCustomerOrderNoSeriesStartingNoLbl, PostedCustomerOrderNoSeriesEndingNoLbl);
             SalesReceivableSetup.Modify();
         end;
     end;

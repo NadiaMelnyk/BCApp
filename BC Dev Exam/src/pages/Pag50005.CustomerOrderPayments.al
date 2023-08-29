@@ -68,10 +68,12 @@ page 50005 "Customer Order Payments"
             {
                 field("Payment Date"; PaymentDate)
                 {
+                    Caption = 'Payment Date';
                     ToolTip = 'Specifies the value of the Payment Date field.';
                 }
                 field("Paid Amount"; CurrentPaidAmount)
                 {
+                    Caption = 'Paid Amount';
                     ToolTip = 'Specifies the value of the Paid Amount field.';
                     DecimalPlaces = 0 : 5;
 
@@ -83,6 +85,7 @@ page 50005 "Customer Order Payments"
                 }
                 field("G/L Account No."; GLAccountNo)
                 {
+                    Caption = 'G/L Account No.';
                     ToolTip = 'Specifies the value of the G/L Account No. field.';
                     TableRelation = "G/L Account"."No.";
                 }
@@ -95,7 +98,6 @@ page 50005 "Customer Order Payments"
         OrderAmount := 0;
         PaidAmount := 0;
         RemainingAmount := 0;
-        TotalInTransaction := 0;
 
         if IsRunFromPostedOrder then begin
             if PostedCustomerOrderHeader.Get(CurrentDocumentNo) then
@@ -138,7 +140,7 @@ page 50005 "Customer Order Payments"
         CustomerOrderPaymentToInsert."Payment Date" := PaymentDate;
         CustomerOrderPaymentToInsert."Paid Amount" := CurrentPaidAmount;
         CustomerOrderPaymentToInsert."G/L Account No." := GLAccountNo;
-        CustomerOrderPaymentToInsert."Created By" := UserId();
+        CustomerOrderPaymentToInsert."Created By" := CopyStr(UserId(), 1, MaxStrLen(CustomerOrderPaymentToInsert."Created By"));
         CustomerOrderPaymentToInsert.Modify();
 
     end;
@@ -156,7 +158,6 @@ page 50005 "Customer Order Payments"
         PaidAmount: Decimal;
         CurrentPaidAmount: Decimal;
         RemainingAmount: Decimal;
-        TotalInTransaction: Decimal;
 
     procedure SetCurrentOrderNo(DocumentNo: Code[20])
     begin

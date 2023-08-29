@@ -83,8 +83,6 @@ table 50000 "Customer Order Header"
             var
                 Customer: Record Customer;
                 CustomLookupStateManager: Codeunit "Custom Lookup State Manager";
-                StandardCodesMgt: Codeunit "Standard Codes Mgt.";
-                IsHandled: Boolean;
             begin
                 if CustomLookupStateManager.IsRecordSaved() then begin
                     Customer := CustomLookupStateManager.GetSavedRecord();
@@ -163,7 +161,7 @@ table 50000 "Customer Order Header"
 
         "Document Date" := WorkDate();
 
-        "Created By" := UserId();
+        "Created By" := CopyStr(UserId(), 1, MaxStrLen("Created By"));
 
         SetView('');
     end;
@@ -238,11 +236,11 @@ table 50000 "Customer Order Header"
 
     procedure DeleteLines()
     var
-        CustomerOrderLine: Record "Customer Order Line";
+        CustomerOrderLineLocal: Record "Customer Order Line";
     begin
-        CustomerOrderLine.Reset();
-        CustomerOrderLine.SetRange("Document No.", "No.");
-        CustomerOrderLine.DeleteAll();
+        CustomerOrderLineLocal.Reset();
+        CustomerOrderLineLocal.SetRange("Document No.", "No.");
+        CustomerOrderLineLocal.DeleteAll();
     end;
 
     procedure DeletePayments()
@@ -296,7 +294,6 @@ table 50000 "Customer Order Header"
     procedure PostOrder()
     var
         ZeroAmountErr: Label 'You cannot post a document with zero amount.';
-        CustomerOrderPost: Codeunit "Customer Order Post";
     begin
         if Rec."Order Amount" = 0 then
             Error(ZeroAmountErr);

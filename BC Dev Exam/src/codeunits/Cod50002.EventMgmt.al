@@ -4,7 +4,7 @@ codeunit 50002 "Event Mgmt."
     local procedure SalesPostYesNo_OnBeforeConfirmSalesPost(var SalesHeader: Record "Sales Header"; var IsHandled: Boolean)
     var
         PostedCustomerOrderHeader: Record "Posted Customer Order Header";
-        ConfirmationLbl: Label 'Customer %1 (%2) has related Posted Customer Orders. Do you want to continue?';
+        ConfirmationLbl: Label 'Customer %1 (%2) has related Posted Customer Orders. Do you want to continue?', Comment = '%1 = Customer Name, %2 = Customer No';
     begin
         PostedCustomerOrderHeader.Reset();
         PostedCustomerOrderHeader.SetRange("Customer No.", SalesHeader."Sell-to Customer No.");
@@ -16,8 +16,7 @@ codeunit 50002 "Event Mgmt."
     [EventSubscriber(ObjectType::Table, Database::Customer, 'OnBeforeOnDelete', '', false, false)]
     local procedure Customer_OnBeforeOnDelete(var Customer: Record Customer; var IsHandled: Boolean)
     var
-        ConfirmManagement: Codeunit "Confirm Management";
-        ConfirmationLbl: Label 'Are you sure you want to delete customer %1 (%2)?';
+        ConfirmationLbl: Label 'Are you sure you want to delete customer %1 (%2)?', Comment = '%1 = Customer Name, %2 = Customer No';
     begin
         if not Confirm(ConfirmationLbl, false, Customer.Name, Customer."No.") then
             Error('');

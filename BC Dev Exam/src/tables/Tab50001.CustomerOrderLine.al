@@ -154,7 +154,6 @@ table 50001 "Customer Order Line"
 
     var
         CustomerOrderHeader: Record "Customer Order Header";
-        Currency: Record Currency;
 
     local procedure TestStatusOpen()
     begin

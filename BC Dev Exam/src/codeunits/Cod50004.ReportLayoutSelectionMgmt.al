@@ -25,7 +25,7 @@ codeunit 50004 "Report Layout Selection Mgmt."
             ReportLayoutSelection.Modify(true);
         end else begin
             ReportLayoutSelection."Report ID" := SelectedReportLayoutList."Report ID";
-            ReportLayoutSelection."Company Name" := CompanyName;
+            ReportLayoutSelection."Company Name" := CopyStr(CompanyName, 1, MaxStrLen(ReportLayoutSelection."Company Name"));
             ReportLayoutSelection."Custom Report Layout Code" := '';
             ReportLayoutSelection.Type := GetReportLayoutSelectionCorrespondingEnum(SelectedReportLayoutList);
             ReportLayoutSelection.Insert(true);
