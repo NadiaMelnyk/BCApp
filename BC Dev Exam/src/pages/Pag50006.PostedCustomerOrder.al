@@ -130,9 +130,30 @@ page 50006 "Posted Customer Order"
                 end;
             }
         }
+        area(Reporting)
+        {
+            action(PrintCustomerOrder)
+            {
+                Caption = 'Print Customer Order';
+                ApplicationArea = All;
+                Image = Print;
+
+                trigger OnAction()
+                var
+                    PostedCustomerOrderHeader: Record "Posted Customer Order Header";
+                begin
+                    PostedCustomerOrderHeader := Rec;
+                    PostedCustomerOrderHeader.SetRange("No.", Rec."No.");
+                    REPORT.Run(REPORT::"Customer Order", true, false, PostedCustomerOrderHeader);
+                end;
+            }
+        }
         area(Promoted)
         {
             actionref(SetPayment_promoted; SetPayment)
+            {
+            }
+            actionref(PrintCustomerOrder_promoted; PrintCustomerOrder)
             {
             }
         }
