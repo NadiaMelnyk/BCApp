@@ -9,9 +9,6 @@ codeunit 50050 "Custom Order Test"
 
     [Test]
     procedure CustomerOrderCreation()
-    var
-        Customer: Record Customer;
-        CustomerOrder: TestPage "Customer Order";
     begin
         // [FEATURE] Customer Order
         // [SCENARIO #0001] Successfully created Customer Order
@@ -28,9 +25,6 @@ codeunit 50050 "Custom Order Test"
 
     [Test]
     procedure ChangeConfirmedCustomOrder()
-    var
-        Customer: Record Customer;
-        CustomerOrder: TestPage "Customer Order";
     begin
         // [FEATURE] Customer Order
         // [SCENARIO #0002] Confermed order cannot be changed
@@ -51,9 +45,6 @@ codeunit 50050 "Custom Order Test"
 
     [Test]
     procedure SetCustomerOrderPaymentForZeroOrder()
-    var
-        Customer: Record Customer;
-        CustomerOrder: TestPage "Customer Order";
     begin
         // [FEATURE] Customer Order Payment
         // [SCENARIO #0001] Customer Order Payment disabled if Order Amount is 0
@@ -70,9 +61,6 @@ codeunit 50050 "Custom Order Test"
 
     [Test]
     procedure SetCustomerOrderPaymentForOrder()
-    var
-        Customer: Record Customer;
-        CustomerOrder: TestPage "Customer Order";
     begin
         // [FEATURE] Customer Order Payment
         // [SCENARIO #0002] Customer can create Payment for one Customer Order
@@ -93,9 +81,6 @@ codeunit 50050 "Custom Order Test"
 
     [Test]
     procedure SetCustomerOrderPaymentForOrderExceedOrderAmount()
-    var
-        Customer: Record Customer;
-        CustomerOrder: TestPage "Customer Order";
     begin
         // [FEATURE] Customer Order Payment
         // [SCENARIO #0003] Customer cannot pay more than Order Amount
@@ -117,9 +102,6 @@ codeunit 50050 "Custom Order Test"
 
     [Test]
     procedure SetCustomerOrderPaymentForOrderEmptyGLAccount()
-    var
-        Customer: Record Customer;
-        CustomerOrder: TestPage "Customer Order";
     begin
         // [FEATURE] Customer Order Payment
         // [SCENARIO #0004] Customer cannot pay without specifying GL Account
@@ -143,9 +125,6 @@ codeunit 50050 "Custom Order Test"
 
     [Test]
     procedure ModifyCustomerOrderAfterSettingPayments()
-    var
-        Customer: Record Customer;
-        CustomerOrder: TestPage "Customer Order";
     begin
         // [FEATURE] Customer Order Payment
         // [SCENARIO #0005] Customer cannot modify the Order if new Order Amount is less that Paid Amount for the Order
@@ -169,9 +148,6 @@ codeunit 50050 "Custom Order Test"
 
     [Test]
     procedure SetCustomerOrderPaymentActionDisabled()
-    var
-        Customer: Record Customer;
-        CustomerOrder: TestPage "Customer Order";
     begin
         // [FEATURE] Customer Order Payment
         // [SCENARIO #0006] Customer Order Payment disabled if Order Amount equals to Paid Amount
@@ -194,9 +170,6 @@ codeunit 50050 "Custom Order Test"
 
     [Test]
     procedure PostCustomerOrderWithZeroAmount()
-    var
-        Customer: Record Customer;
-        CustomerOrder: TestPage "Customer Order";
     begin
         // [FEATURE] Customer Order Posting
         // [SCENARIO #0001] Customer cannot post the order with zero Order Amount
@@ -214,9 +187,6 @@ codeunit 50050 "Custom Order Test"
 
     [Test]
     procedure PostCustomerOrderWithNotUniqueExternalDocumentNo()
-    var
-        Customer: Record Customer;
-        CustomerOrder: TestPage "Customer Order";
     begin
         // [FEATURE] Customer Order Posting
         // [SCENARIO #0002] Customer cannot post the order with External Document No. that is already exist in Posted Header
@@ -235,9 +205,6 @@ codeunit 50050 "Custom Order Test"
 
     [Test]
     procedure PostCustomerOrderSuccessfully()
-    var
-        Customer: Record Customer;
-        CustomerOrder: TestPage "Customer Order";
     begin
         // [FEATURE] Customer Order Posting
         // [SCENARIO #0003] Customer cannot posted successfully
